@@ -1,62 +1,49 @@
-﻿@model IndexModel
+﻿@page
+@model IndexModel
 @{
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">This is a list of Products</h1>
-    <input type="text" id="searchInput" placeholder="Search products...">
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th scope="col" data-sort="ProductID">Product ID</th>
-                <th scope="col" data-sort="ProductName">Product Name</th>
-                <th scope="col" data-sort="Quantity">Quantity</th>
-            </tr>
-        </thead>
-        <tbody id="productsTable">
-            @foreach (var product in Model.Products)
-            {
-                <tr>
-                    <th scope="row">@product.ProductID</th>
-                    <td>@product.ProductName</td>
-                    <td>@product.Quantity</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>@ViewData["Title"]</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="text-center mt-5">
+            <!-- SVG image of a flower -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-flower">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M12 2s2 3.58 2 8.38-1.12 7.74-2 8.62c-.83.89-2 1-2.81 0-.83-.89-2-1.73-2-6.53s2-6.38 2-6.38z"></path>
+            </svg>
 
-<h2 class="text-center">Goms loves omu, omu loves Goms</h2>
+            <h1 class="display-4">This is a list of Products</h1>
+            <h2 class="mb-4">Goms loves omu, omu loves Goms</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Product ID</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in Model.Products)
+                    {
+                        <tr>
+                            <th scope="row">@product.ProductID</th>
+                            <td>@product.ProductName</td>
+                            <td>@product.Quantity</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-@section scripts {
-    <script>
-        // Search and Filter
-        $("#searchInput").on("keyup", function () {
-            var value = $(this).val().toLowerCase();
-            $("#productsTable tr").filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-            });
-        });
-
-        // Sorting
-        $("th[data-sort]").on("click", function () {
-            var column = $(this).data("sort");
-            var order = $(this).hasClass("sorted-asc") ? "desc" : "asc";
-
-            $("#productsTable tr").sort(function (a, b) {
-                var aValue = $(a).find("td").eq(column).text();
-                var bValue = $(b).find("td").eq(column).text();
-
-                if (!isNaN(aValue) && !isNaN(bValue)) {
-                    return order === "asc" ? aValue - bValue : bValue - aValue;
-                } else {
-                    return order === "asc" ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
-                }
-            }).appendTo("#productsTable");
-
-            $("th[data-sort]").removeClass("sorted-asc sorted-desc");
-            $(this).addClass("sorted-" + order);
-        });
-    </script>
-}
+</body>
+</html>
